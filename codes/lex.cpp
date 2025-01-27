@@ -17,6 +17,7 @@ struct Token {
     TokenType type;
     std::string value;
     int hash;
+    int linenumber;
 };
 bool typecmp(Token t1, Token t2){
     /* sorts the token list to create token table
@@ -28,7 +29,10 @@ bool typecmp(Token t1, Token t2){
             return t1.value < t2.value;
         }
 }
-std::vector<Token> tokenize(const std::string& input) {
+// expr = STRING | RESERVEDWORD | NUMBER | IDENTIFIER | SYMBOL 
+    std::regex expr("(\"[^\"]*\")|(int|float|void|return|if|while|cin|cout|continue|break|#include|using|iostream|namespace|std|main)|[0-9]+|[a-zA-Z][a-zA-Z0-9]*|(\\(|\\)|\\||\\[|\\]|,|;|\\+|\\-|\\*|\\/|==|!=|>=|<=|<<|>>|>|<|=|\\{|\\})");
+
+std::vector<Token> tokenize(const std::string& input, int ln) {
     std::vector<Token> tokenList;
     // regular expressions:
     std::regex STRING_expr("\"[^\"]*\""); // two " marks and anything between them that isn't a " mark
@@ -36,9 +40,7 @@ std::vector<Token> tokenize(const std::string& input) {
     std::regex RESERVEDWORD_expr("(int|float|void|return|if|while|cin|cout|continue|break|#include|using|iostream|namespace|std|main)");
     std::regex NUMBER_expr("[0-9]+"); //(digit)+
     std::regex IDENTIFIER_expr("[a-zA-Z][a-zA-Z0-9]*"); //letter(letter|digit)*
-    // expr = STRING | RESERVEDWORD | NUMBER | IDENTIFIER | SYMBOL 
-    std::regex expr("(\"[^\"]*\")|(int|float|void|return|if|while|cin|cout|continue|break|#include|using|iostream|namespace|std|main)|[0-9]+|[a-zA-Z][a-zA-Z0-9]*|(\\(|\\)|\\||\\[|\\]|,|;|\\+|\\-|\\*|\\/|==|!=|>=|<=|<<|>>|>|<|=|\\{|\\})");
-
+    
     // iterate each expression
     std::sregex_iterator it(input.begin(), input.end(), expr); //1st expression
     std::sregex_iterator end; // last expression
@@ -47,15 +49,15 @@ std::vector<Token> tokenize(const std::string& input) {
         std::smatch match = *it;
         std::string match_str = match.str();
         if (std::regex_match(match_str, STRING_expr)) {
-            tokenList.push_back({STRING, match_str,pos});
+            tokenList.push_back({STRING, match_str,pos,ln});
         } else if (std::regex_match(match_str, RESERVEDWORD_expr)) {
-            tokenList.push_back({RESERVEDWORD, match_str,pos});
+            tokenList.push_back({RESERVEDWORD, match_str,pos,ln});
         } else if (std::regex_match(match_str, NUMBER_expr)) {
-            tokenList.push_back({NUMBER, match_str,pos});
+            tokenList.push_back({NUMBER, match_str,pos,ln});
         } else if (std::regex_match(match_str, SYMBOL_expr)) {
-            tokenList.push_back({SYMBOL, match_str,pos});
+            tokenList.push_back({SYMBOL, match_str,pos,ln});
         } else if (std::regex_match(match_str, IDENTIFIER_expr)) {
-            tokenList.push_back({IDENTIFIER, match_str,pos});
+            tokenList.push_back({IDENTIFIER, match_str,pos,ln});
         } 
         it++,pos++;
         }
