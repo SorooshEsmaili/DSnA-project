@@ -31,7 +31,7 @@ std::map<std::string, std::string> parsetable() {
     dictionary["<T> }"]                   = "epsilon";
     dictionary["<V> }"]                   = "epsilon";
     dictionary["<T> return"]              = "epsilon";
-    dictionary["<V> return"]              = "return 0 ;";
+    dictionary["<V> return"]             = "return 0 ;";
     dictionary["<T> float"]               = "<Id> <T>";
     dictionary["<Id> float"]              = "float <L>";
     dictionary["<L> IDENTIFIER"]          = "IDENTIFIER <Assign> <Z>";

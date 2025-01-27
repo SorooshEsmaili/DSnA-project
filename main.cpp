@@ -18,6 +18,60 @@ std::map<TokenType, std::string> enum2str{
     {IDENTIFIER, "IDENTIFIER"},
     {RESERVEDWORD, "RESERVEDWORD"}
 };
+// bonus part 1
+std::string inedtifier_first_occurrence(std::string s, Node* M){
+    if(!std::regex_match(s,IDENTIFIER_expr)){
+        return "Error! Invalid name for an identifier.";
+    }else{
+        std::stack<Node*> DFS, FSD;
+        DFS.push(M);
+        Node* now;
+        while(!DFS.empty()){
+            now=DFS.top();
+            DFS.pop();
+            if(now->label==s){
+                std::string t=now->Parent->Parent->LeftChild->label;//int or float
+                t=t+" "+s+" ";
+                std::vector<Node*> Q;
+                Q.push_back(now->RightSibling);//<Assign>
+                while(!Q.empty()){
+                    now=Q[0];
+                    Q.erase(Q.begin());
+                    if(now->label.substr(0,1)=="<"){// is variable?
+                    now=now->LeftChild;
+                    while(now->label!="NIL"){
+                    Q.push_back(now);
+                    now=now->RightSibling;
+                    }
+                    }else if(now->label=="epsilon"){
+                        continue;
+                    }else{
+                        t=t+now->label+" ";
+                    }
+                }
+                return t;
+            }else if(now->label.substr(0,1)!="<"){
+                continue;
+            }
+            else{
+                now=now->LeftChild;
+                while(now->label!="NIL"){
+                    FSD.push(now);
+                    now=now->RightSibling;
+                }
+                while (!FSD.empty()){
+                    DFS.push(FSD.top());
+                    FSD.pop();
+                }
+            }
+
+        }
+       
+
+    }
+    return "No such variable is declared";
+}
+
 int main(){
     std::ifstream input("input.txt"); 
     std::string line;
@@ -146,12 +200,14 @@ int main(){
                     int j = Rule.find(" ");
                     if(first_child){
                         first_child=false;
-                        current->LeftChild=new Node(Rule.substr(0,j));
+                        if(Rule.substr(0,j)==enum2str[tokenz[i].type]){current->LeftChild=new Node(tokenz[i].value);}
+                        else{current->LeftChild=new Node(Rule.substr(0,j));}
                         current->LeftChild->Parent=current;
                         current=current->LeftChild;
                         std::cout<<"creating "<<current->label<<" under "<<current->Parent->label<<"\n";
                     }else{
-                        current->RightSibling=new Node(Rule.substr(0,j));
+                        if(Rule.substr(0,j)==enum2str[tokenz[i].type]){current->RightSibling=new Node(tokenz[i].value);}
+                        else{current->RightSibling=new Node(Rule.substr(0,j));}
                         current->RightSibling->Parent=current->Parent;
                         std::cout<<"creating "<<Rule.substr(0,j)<<" right of "<<current->label<<"\n";
                         current=current->RightSibling;
@@ -176,6 +232,8 @@ int main(){
                 break;
             }
         }
+        // bonus 1
+        std::cout<<"first occurrence of s is:"<< inedtifier_first_occurrence("s",root->LeftChild->LeftChild->RightSibling->RightSibling);
 
 
     input.close();

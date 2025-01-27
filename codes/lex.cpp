@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 #include <regex>
 #include <vector>
 // #include "C:\Users\WarwickRen\Desktop\DS project\headers\lex.hpp"
@@ -30,7 +31,8 @@ bool typecmp(Token t1, Token t2){
         }
 }
 // expr = STRING | RESERVEDWORD | NUMBER | IDENTIFIER | SYMBOL 
-    std::regex expr("(\"[^\"]*\")|(int|float|void|return|if|while|cin|cout|continue|break|#include|using|iostream|namespace|std|main)|[0-9]+|[a-zA-Z][a-zA-Z0-9]*|(\\(|\\)|\\||\\[|\\]|,|;|\\+|\\-|\\*|\\/|==|!=|>=|<=|<<|>>|>|<|=|\\{|\\})");
+std::regex expr("(\"[^\"]*\")|(int|float|void|return|if|while|cin|cout|continue|break|#include|using|iostream|namespace|std|main)|[0-9]+|[a-zA-Z][a-zA-Z0-9]*|(\\(|\\)|\\||\\[|\\]|,|;|\\+|\\-|\\*|\\/|==|!=|>=|<=|<<|>>|>|<|=|\\{|\\})");
+std::regex IDENTIFIER_expr("[a-zA-Z][a-zA-Z0-9]*"); //letter(letter|digit)*
 
 std::vector<Token> tokenize(const std::string& input, int ln) {
     std::vector<Token> tokenList;
@@ -39,8 +41,7 @@ std::vector<Token> tokenize(const std::string& input, int ln) {
     std::regex SYMBOL_expr("(\\(|\\)|\\||\\[|\\]|,|;|\\+|\\-|\\*|\\/|==|!=|>=|<=|<<|>>|>|<|=|\\{|\\})");
     std::regex RESERVEDWORD_expr("(int|float|void|return|if|while|cin|cout|continue|break|#include|using|iostream|namespace|std|main)");
     std::regex NUMBER_expr("[0-9]+"); //(digit)+
-    std::regex IDENTIFIER_expr("[a-zA-Z][a-zA-Z0-9]*"); //letter(letter|digit)*
-    
+    // two of them are defined above because they are needed in main.cpp
     // iterate each expression
     std::sregex_iterator it(input.begin(), input.end(), expr); //1st expression
     std::sregex_iterator end; // last expression
