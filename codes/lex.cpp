@@ -30,22 +30,22 @@ bool typecmp(Token t1, Token t2){
             return t1.value < t2.value;
         }
 }
+int pos=0;
+// regular expressions:
+std::regex IDENTIFIER_expr("[a-zA-Z][a-zA-Z0-9]*"); //letter(letter|digit)*
+std::regex STRING_expr("\"[^\"]*\""); // two " marks and anything between them that isn't a " mark
+std::regex SYMBOL_expr("(\\(|\\)|\\||\\[|\\]|,|;|\\+|\\-|\\*|\\/|==|!=|>=|<=|<<|>>|>|<|=|\\{|\\})");
+std::regex RESERVEDWORD_expr("(int|float|void|return|if|while|cin|cout|continue|break|#include|using|iostream|namespace|std|main)");
+std::regex NUMBER_expr("[0-9]+"); //(digit)+
 // expr = STRING | RESERVEDWORD | NUMBER | IDENTIFIER | SYMBOL 
 std::regex expr("(\"[^\"]*\")|(int|float|void|return|if|while|cin|cout|continue|break|#include|using|iostream|namespace|std|main)|[0-9]+|[a-zA-Z][a-zA-Z0-9]*|(\\(|\\)|\\||\\[|\\]|,|;|\\+|\\-|\\*|\\/|==|!=|>=|<=|<<|>>|>|<|=|\\{|\\})");
-std::regex IDENTIFIER_expr("[a-zA-Z][a-zA-Z0-9]*"); //letter(letter|digit)*
 
 std::vector<Token> tokenize(const std::string& input, int ln) {
     std::vector<Token> tokenList;
-    // regular expressions:
-    std::regex STRING_expr("\"[^\"]*\""); // two " marks and anything between them that isn't a " mark
-    std::regex SYMBOL_expr("(\\(|\\)|\\||\\[|\\]|,|;|\\+|\\-|\\*|\\/|==|!=|>=|<=|<<|>>|>|<|=|\\{|\\})");
-    std::regex RESERVEDWORD_expr("(int|float|void|return|if|while|cin|cout|continue|break|#include|using|iostream|namespace|std|main)");
-    std::regex NUMBER_expr("[0-9]+"); //(digit)+
-    // two of them are defined above because they are needed in main.cpp
+    
     // iterate each expression
     std::sregex_iterator it(input.begin(), input.end(), expr); //1st expression
     std::sregex_iterator end; // last expression
-    int pos=0;
     while (it!= end) {
         std::smatch match = *it;
         std::string match_str = match.str();
@@ -59,7 +59,7 @@ std::vector<Token> tokenize(const std::string& input, int ln) {
             tokenList.push_back({SYMBOL, match_str,pos,ln});
         } else if (std::regex_match(match_str, IDENTIFIER_expr)) {
             tokenList.push_back({IDENTIFIER, match_str,pos,ln});
-        } 
+        }
         it++,pos++;
         }
         return tokenList;

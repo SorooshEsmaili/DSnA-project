@@ -3,6 +3,7 @@
 #include ".\codes\lex.cpp"
 #include ".\codes\parse table.cpp"
 
+
 // defining parse tree data structure
 struct Node {
     std::string label;
@@ -18,6 +19,77 @@ std::map<TokenType, std::string> enum2str{
     {IDENTIFIER, "IDENTIFIER"},
     {RESERVEDWORD, "RESERVEDWORD"}
 };
+// bonus 2: invalid declaration
+std::vector<int> invalid_declaration(std::vector<Token> T){
+    std::vector<int> err;
+    for (const auto& token : T) {
+        if(token.value=="int" || token.value=="float"){
+            if(token.type==RESERVEDWORD){
+                if(T[token.hash+1].type==IDENTIFIER){
+                    if(T[token.hash+2].value=="="){
+                        if(!std::regex_match(T[token.hash+3].value, NUMBER_expr)){
+                            err.push_back(1), err.push_back(token.linenumber);
+                            return err;
+                        }
+                    }
+                }
+            }
+        }
+        else if(token.value=="std" && T[token.hash+1].value!=";"){
+            err.push_back(2), err.push_back(token.linenumber);
+            return err;
+        }
+        else if(token.value=="return" && T[token.hash+2].value!=";"){
+            err.push_back(2), err.push_back(token.linenumber);
+            return err;
+        }
+        else if(token.value=="cin"){
+            int jump=1;
+            while(1){
+            if(T[token.hash+jump].value==";"){
+                break;
+            }else if(T[token.hash+jump].value==">>"){
+                jump=jump+2;
+            }else{
+                err.push_back(2), err.push_back(T[token.hash+jump].linenumber);
+            return err;
+            }
+            }
+        }
+        else if(token.value=="cout"){
+            int jump=1;
+            while(1){
+            if(T[token.hash+jump].value==";"){
+                break;
+            }else if(T[token.hash+jump].value=="<<"){
+                jump=jump+2;
+            }else{
+                err.push_back(2), err.push_back(T[token.hash+jump].linenumber);
+                return err;
+            }
+            }
+        }
+        else if(token.type==IDENTIFIER){
+            int jump=0;
+            while(1){
+                if(T[token.hash+jump+1].value==";"){
+                    break;
+                }else if(T[token.hash+jump+2].type==IDENTIFIER || T[token.hash+jump-2].value=="while"){
+                    break;
+                }else if(T[token.hash+jump+2].type==NUMBER){
+                    jump=jump+2;
+                }else {
+                    err.push_back(2), err.push_back(T[token.hash+jump].linenumber);
+                    return err;
+                }
+            }
+        }
+    }
+    err.push_back(0);
+    return err;
+
+
+}
 // bonus part 1
 std::string inedtifier_first_occurrence(std::string s, Node* M){
     if(!std::regex_match(s,IDENTIFIER_expr)){
@@ -73,7 +145,8 @@ std::string inedtifier_first_occurrence(std::string s, Node* M){
 }
 
 int main(){
-    std::ifstream input("input.txt"); 
+    std::ifstream input("input.txt");
+    std::ofstream log("log.txt");
     std::string line;
     // reading the input string
     if (input.is_open()) {
@@ -86,23 +159,34 @@ int main(){
             ln++;
         }
         std::string tavaken[5]={"STRING","NUMBER", "SYMBOL","IDENTIFIER", "RESERVEDWORD"};
-        // std::cout << "Tokenized string:\n";
-        // for (const auto& token : tokenz) {
-        // std::cout << "[" << tavaken[token.type]<< ", " << token.value << "]" << std::endl;
-        // }
+        log << "Tokenized string:\n";
+        for (const auto& token : tokenz) {
+        log << "[" << tavaken[token.type]<< ", " << token.value << "]" << std::endl;
+        }
+        log << "\n\n\n";
+        //bonus 2
+        std::vector<int> isvalid = invalid_declaration(tokenz);
+        if(isvalid[0]==1){
+            log << "Invalid declaration of a variable in line "<< isvalid[1];
+            return 0;
+        }else if(isvalid[0]==2){
+            log << "semicolon missing in line "<< isvalid[1];
+            return 0;
+        }else{ log << "all variable declarations are valid!" << "\n\n\n";}
         // creating the token table
         std::vector<Token> tokenzSorted = tokenz;
         std::sort(tokenzSorted.begin(), tokenzSorted.end(),typecmp);
-        // std::cout << "Token Table:\n";
-        // for (const auto& token : tokenzSorted) {
-        //     std::cout << "[" << tavaken[token.type]<< ", " << token.value <<  "\t h(k)= " << token.hash << "]" << std::endl;
-        // }
+        log << "Token Table:\n";
+        for (const auto& token : tokenzSorted) {
+            log << "[" << tavaken[token.type]<< ", " << token.value <<  "\t h(k)= " << token.hash << "]" << std::endl;
+        }
+        log << "\n\n\n";
         // Preparing token list, creating stack, and loading parse table
         std::map<std::string, std::string> ParseTable=parsetable();
         std::stack<std::string> st;
         // st.push("$");
         st.push("<Start>");
-        // tokenz.push_back({STRING, "$",-1,-1});
+        tokenz.push_back({STRING, "$",-1,-10});
         int i=0;
         Node* root = new Node("Program");
         Node* NIL = new Node("NIL");
@@ -111,22 +195,27 @@ int main(){
         Node* current = root->LeftChild;
         std::stack<std::string> temp;
         // parsing the input string
+        log << "tree geneeration";
         while(!st.empty()){
-            std::cout<<"currently in "<<current->label<<" with input: "<<tokenz[i].value<<"\n";
+            if(tokenz[i].value=="$"){
+                log << "parser ran out of input before finishing";
+                return 0;
+            }
+            log <<"currently in "<<current->label<<" with input: "<<tokenz[i].value<<"\n";
             if(current->label=="epsilon"){
             // if we're in an epsilon-node
                 while(current->RightSibling->label=="NIL"){
                     current=current->Parent;
                 }
                 current=current->RightSibling;
-                std::cout<<"moving to "<<current->label<<"\n";
+                log <<"moving to "<<current->label<<"\n";
             }
             else if(st.top()==tokenz[i].value){
                 // if the current node represents a terminal other than NUMBER, STRING, IDENTIFIER
                 current->LeftChild=NIL;
                 // current->label=st.top();
-                std::cout<<"Matched!"<<"\n";
-                std::cout<<"popping "<<st.top()<<"\n";
+                log <<"Matched!"<<"\n";
+                log <<"popping "<<st.top()<<"\n";
                 st.pop();
                 i++;
                 if(st.empty()){break;}
@@ -134,32 +223,32 @@ int main(){
                     current=current->Parent;
                 }
                 current=current->RightSibling;
-                std::cout<<"moving to "<<current->label<<"\n";
+                log <<"moving to "<<current->label<<"\n";
             }
             else if(st.top()==enum2str[tokenz[i].type]){
                 // if the current node represents a one of { NUMBER, STRING, IDENTIFIER }
                 current->LeftChild=NIL;
                 // current->label=st.top();
-                std::cout<<"Matched!"<<"\n";
-                std::cout<<"popping "<<st.top()<<"\n";
+                log <<"Matched!"<<"\n";
+                log <<"popping "<<st.top()<<"\n";
                 st.pop();
                 i++;
                 while(current->RightSibling->label=="NIL"){
                     current=current->Parent;
                 }
                 current=current->RightSibling;
-                std::cout<<"moving to "<<current->label<<"\n";
+                log <<"moving to "<<current->label<<"\n";
             }
             else if(!ParseTable.count(st.top() + " " + tokenz[i].value) && (!ParseTable.count(st.top() + " " + enum2str[tokenz[i].type]))){
                 // if the parse table has nothing for the current input symbol and st.top()
-                std::cout << "Parse error 1 in line " << tokenz[i].linenumber <<"\n";
+                log  << "Parse error 1 in line " << tokenz[i].linenumber <<"\n";
                 break;
             }
             else if (ParseTable.count(st.top() + " " + tokenz[i].value )){
                 // if the parse table has a rule for the current input symbol and st.top()
                 std::string Rule(ParseTable[st.top() + " " + tokenz[i].value]);
                 Rule=Rule+" ";
-                std::cout<<"popping "<<st.top()<<"\n";
+                log <<"popping "<<st.top()<<"\n";
                 st.pop();
                 bool first_child=true;
                 while(Rule.length()){
@@ -169,11 +258,11 @@ int main(){
                         current->LeftChild=new Node(Rule.substr(0,j));
                         current->LeftChild->Parent=current;
                         current=current->LeftChild;
-                        std::cout<<"creating "<<current->label<<" under "<<current->Parent->label<<"\n";
+                        log <<"creating "<<current->label<<" under "<<current->Parent->label<<"\n";
                     }else{
                         current->RightSibling=new Node(Rule.substr(0,j));
                         current->RightSibling->Parent=current->Parent;
-                        std::cout<<"creating "<<Rule.substr(0,j)<<" right of "<<current->label<<"\n";
+                        log <<"creating "<<Rule.substr(0,j)<<" right of "<<current->label<<"\n";
                         current=current->RightSibling;
                     }
                     if(Rule.substr(0,j)!="epsilon"){
@@ -183,9 +272,9 @@ int main(){
                 }
                 current->RightSibling=new Node("NIL");
                 current=current->Parent->LeftChild;
-                std::cout<<"moving to "<<current->label<<"\n";
+                log <<"moving to "<<current->label<<"\n";
                 while(!temp.empty()){
-                    std::cout<<"pushing "<<temp.top()<<" into stack"<<"\n";
+                    log <<"pushing "<<temp.top()<<" into stack"<<"\n";
                     st.push(temp.top());
                     temp.pop();
                 }
@@ -193,7 +282,7 @@ int main(){
             else if(ParseTable.count(st.top() + " " + enum2str[tokenz[i].type])){
                 std::string Rule(ParseTable[st.top() + " " + enum2str[tokenz[i].type]]);
                 Rule=Rule+" ";
-                std::cout<<"popping "<<st.top()<<"\n";
+                log <<"popping "<<st.top()<<"\n";
                 st.pop();
                 bool first_child=true;
                 while(Rule.length()){
@@ -204,12 +293,12 @@ int main(){
                         else{current->LeftChild=new Node(Rule.substr(0,j));}
                         current->LeftChild->Parent=current;
                         current=current->LeftChild;
-                        std::cout<<"creating "<<current->label<<" under "<<current->Parent->label<<"\n";
+                        log <<"creating "<<current->label<<" under "<<current->Parent->label<<"\n";
                     }else{
                         if(Rule.substr(0,j)==enum2str[tokenz[i].type]){current->RightSibling=new Node(tokenz[i].value);}
                         else{current->RightSibling=new Node(Rule.substr(0,j));}
                         current->RightSibling->Parent=current->Parent;
-                        std::cout<<"creating "<<Rule.substr(0,j)<<" right of "<<current->label<<"\n";
+                        log <<"creating "<<Rule.substr(0,j)<<" right of "<<current->label<<"\n";
                         current=current->RightSibling;
                     }
                     if(Rule.substr(0,j)!="epsilon"){
@@ -219,21 +308,26 @@ int main(){
                 }
                 current->RightSibling=new Node("NIL");
                 current=current->Parent->LeftChild;
-                std::cout<<"moving to "<<current->label<<"\n";
+                log <<"moving to "<<current->label<<"\n";
                 while(!temp.empty()){
-                    std::cout<<"pushing "<<temp.top()<<" into stack"<<"\n";
+                    log <<"pushing "<<temp.top()<<" into stack"<<"\n";
                     st.push(temp.top());
                     temp.pop();
                 }
             }
             else if(std::regex_match(st.top(),expr)){
                 // if st.top() is a token other than the current input symbol
-                std::cout << "Parse error 2 in  line " << tokenz[i].linenumber <<"\n";
+                log << "Parse error 2 in  line " << tokenz[i].linenumber <<"\n";
                 break;
             }
         }
+        if(tokenz[i].value!="$"){
+                log << "parser finished but input remains";
+                return 0;
+        }
+        log << "\n\n\n";
         // bonus 1
-        std::cout<<"first occurrence of s is:"<< inedtifier_first_occurrence("s",root->LeftChild->LeftChild->RightSibling->RightSibling);
+        log <<"first occurrence of s is:"<< inedtifier_first_occurrence("s",root->LeftChild->LeftChild->RightSibling->RightSibling);
 
 
     input.close();
