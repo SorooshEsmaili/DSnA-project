@@ -25,14 +25,9 @@ std::vector<int> invalid_declaration(std::vector<Token> T){
     for (const auto& token : T) {
         if(token.value=="int" || token.value=="float"){
             if(token.type==RESERVEDWORD){
-            int jump=2;
-                while (1){
-                    if(T[token.hash+jump].value==";"){
-                        break;
-                    }else if(T[token.hash+jump].value==","){
-                        jump=jump+2;
-                    }else if(T[token.hash+jump].value=="=" && T[token.hash+jump].type!=NUMBER){
-                        err.push_back(1),err.push_back(T[token.hash+jump].linenumber);
+                if(T[token.hash+2].value=="="){
+                    if(T[token.hash+3].type!=NUMBER){
+                        err.push_back(1), err.push_back(T[token.hash+3].linenumber);
                         return err;
                     }
                 }
@@ -198,7 +193,7 @@ int main(){
         Node* current = root->LeftChild;
         std::stack<std::string> temp;
         // parsing the input string
-        log << "tree geneeration";
+        log << "tree geneeration"<<"\n";
         while(!st.empty()){
             if(tokenz[i].value=="$"){
                 log << "parser ran out of input before finishing";
