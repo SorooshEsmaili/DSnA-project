@@ -28,7 +28,7 @@ bool typecmp(Token t1, Token t2){
         else{
             return t1.value < t2.value;
         }
-}
+}//
 int pos=0;
 // regular expressions:
 std::regex IDENTIFIER_expr("[a-zA-Z][a-zA-Z0-9]*"); //letter(letter|digit)*

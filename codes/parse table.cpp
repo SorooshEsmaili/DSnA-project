@@ -1,6 +1,6 @@
 #include <iostream>
 #include <map>
-#include <string>
+#include <string>//
 
 std::map<std::string, std::string> parsetable() {
     std::map<std::string, std::string> dictionary;

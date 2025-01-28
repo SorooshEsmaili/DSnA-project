@@ -276,7 +276,7 @@ int main(){
                     st.push(temp.top());
                     temp.pop();
                 }
-            }
+            }//
             else if(ParseTable.count(st.top() + " " + enum2str[tokenz[i].type])){
                 std::string Rule(ParseTable[st.top() + " " + enum2str[tokenz[i].type]]);
                 Rule=Rule+" ";

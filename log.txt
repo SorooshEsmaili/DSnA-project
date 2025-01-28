@@ -1,0 +1,816 @@
+Tokenized string:
+[RESERVEDWORD, #include]
+[SYMBOL, <]
+[RESERVEDWORD, iostream]
+[SYMBOL, >]
+[RESERVEDWORD, using]
+[RESERVEDWORD, namespace]
+[RESERVEDWORD, std]
+[SYMBOL, ;]
+[RESERVEDWORD, int]
+[RESERVEDWORD, main]
+[SYMBOL, (]
+[SYMBOL, )]
+[SYMBOL, {]
+[RESERVEDWORD, int]
+[IDENTIFIER, x]
+[SYMBOL, ;]
+[RESERVEDWORD, int]
+[IDENTIFIER, s]
+[SYMBOL, =]
+[NUMBER, 0]
+[SYMBOL, ,]
+[IDENTIFIER, t]
+[SYMBOL, =]
+[NUMBER, 10]
+[SYMBOL, ;]
+[RESERVEDWORD, while]
+[SYMBOL, (]
+[IDENTIFIER, t]
+[SYMBOL, >=]
+[NUMBER, 0]
+[SYMBOL, )]
+[SYMBOL, {]
+[RESERVEDWORD, cin]
+[SYMBOL, >>]
+[IDENTIFIER, x]
+[SYMBOL, ;]
+[IDENTIFIER, t]
+[SYMBOL, =]
+[IDENTIFIER, t]
+[SYMBOL, -]
+[NUMBER, 1]
+[SYMBOL, ;]
+[IDENTIFIER, s]
+[SYMBOL, =]
+[IDENTIFIER, s]
+[SYMBOL, +]
+[IDENTIFIER, x]
+[SYMBOL, ;]
+[SYMBOL, }]
+[RESERVEDWORD, cout]
+[SYMBOL, <<]
+[STRING, "sum="]
+[SYMBOL, <<]
+[IDENTIFIER, s]
+[SYMBOL, ;]
+[RESERVEDWORD, return]
+[NUMBER, 0]
+[SYMBOL, ;]
+[SYMBOL, }]
+
+
+
+all variable declarations are valid!
+
+
+Token Table:
+[STRING, "sum="	 h(k)= 51]
+[NUMBER, 0	 h(k)= 56]
+[NUMBER, 0	 h(k)= 19]
+[NUMBER, 0	 h(k)= 29]
+[NUMBER, 1	 h(k)= 40]
+[NUMBER, 10	 h(k)= 23]
+[SYMBOL, (	 h(k)= 26]
+[SYMBOL, (	 h(k)= 10]
+[SYMBOL, )	 h(k)= 11]
+[SYMBOL, )	 h(k)= 30]
+[SYMBOL, +	 h(k)= 45]
+[SYMBOL, ,	 h(k)= 20]
+[SYMBOL, -	 h(k)= 39]
+[SYMBOL, ;	 h(k)= 41]
+[SYMBOL, ;	 h(k)= 35]
+[SYMBOL, ;	 h(k)= 7]
+[SYMBOL, ;	 h(k)= 15]
+[SYMBOL, ;	 h(k)= 47]
+[SYMBOL, ;	 h(k)= 24]
+[SYMBOL, ;	 h(k)= 54]
+[SYMBOL, ;	 h(k)= 57]
+[SYMBOL, <	 h(k)= 1]
+[SYMBOL, <<	 h(k)= 52]
+[SYMBOL, <<	 h(k)= 50]
+[SYMBOL, =	 h(k)= 22]
+[SYMBOL, =	 h(k)= 18]
+[SYMBOL, =	 h(k)= 37]
+[SYMBOL, =	 h(k)= 43]
+[SYMBOL, >	 h(k)= 3]
+[SYMBOL, >=	 h(k)= 28]
+[SYMBOL, >>	 h(k)= 33]
+[SYMBOL, {	 h(k)= 12]
+[SYMBOL, {	 h(k)= 31]
+[SYMBOL, }	 h(k)= 48]
+[SYMBOL, }	 h(k)= 58]
+[IDENTIFIER, s	 h(k)= 53]
+[IDENTIFIER, s	 h(k)= 44]
+[IDENTIFIER, s	 h(k)= 17]
+[IDENTIFIER, s	 h(k)= 42]
+[IDENTIFIER, t	 h(k)= 21]
+[IDENTIFIER, t	 h(k)= 38]
+[IDENTIFIER, t	 h(k)= 36]
+[IDENTIFIER, t	 h(k)= 27]
+[IDENTIFIER, x	 h(k)= 46]
+[IDENTIFIER, x	 h(k)= 14]
+[IDENTIFIER, x	 h(k)= 34]
+[RESERVEDWORD, #include	 h(k)= 0]
+[RESERVEDWORD, cin	 h(k)= 32]
+[RESERVEDWORD, cout	 h(k)= 49]
+[RESERVEDWORD, int	 h(k)= 8]
+[RESERVEDWORD, int	 h(k)= 16]
+[RESERVEDWORD, int	 h(k)= 13]
+[RESERVEDWORD, iostream	 h(k)= 2]
+[RESERVEDWORD, main	 h(k)= 9]
+[RESERVEDWORD, namespace	 h(k)= 5]
+[RESERVEDWORD, return	 h(k)= 55]
+[RESERVEDWORD, std	 h(k)= 6]
+[RESERVEDWORD, using	 h(k)= 4]
+[RESERVEDWORD, while	 h(k)= 25]
+
+
+
+tree geneeration
+currently in <Start> with input: #include
+popping <Start>
+creating <S> under <Start>
+creating <N> right of <S>
+creating <M> right of <N>
+moving to <S>
+pushing <M> into stack
+pushing <N> into stack
+pushing <S> into stack
+currently in <S> with input: #include
+popping <S>
+creating #include under <S>
+creating < right of #include
+creating iostream right of <
+creating > right of iostream
+creating <S> right of >
+moving to #include
+pushing <S> into stack
+pushing > into stack
+pushing iostream into stack
+pushing < into stack
+pushing #include into stack
+currently in #include with input: #include
+Matched!
+popping #include
+moving to <
+currently in < with input: <
+Matched!
+popping <
+moving to iostream
+currently in iostream with input: iostream
+Matched!
+popping iostream
+moving to >
+currently in > with input: >
+Matched!
+popping >
+moving to <S>
+currently in <S> with input: using
+popping <S>
+creating epsilon under <S>
+moving to epsilon
+currently in epsilon with input: using
+moving to <N>
+currently in <N> with input: using
+popping <N>
+creating using under <N>
+creating namespace right of using
+creating std right of namespace
+creating ; right of std
+moving to using
+pushing ; into stack
+pushing std into stack
+pushing namespace into stack
+pushing using into stack
+currently in using with input: using
+Matched!
+popping using
+moving to namespace
+currently in namespace with input: namespace
+Matched!
+popping namespace
+moving to std
+currently in std with input: std
+Matched!
+popping std
+moving to ;
+currently in ; with input: ;
+Matched!
+popping ;
+moving to <M>
+currently in <M> with input: int
+popping <M>
+creating int under <M>
+creating main right of int
+creating ( right of main
+creating ) right of (
+creating { right of )
+creating <T> right of {
+creating <V> right of <T>
+creating } right of <V>
+moving to int
+pushing } into stack
+pushing <V> into stack
+pushing <T> into stack
+pushing { into stack
+pushing ) into stack
+pushing ( into stack
+pushing main into stack
+pushing int into stack
+currently in int with input: int
+Matched!
+popping int
+moving to main
+currently in main with input: main
+Matched!
+popping main
+moving to (
+currently in ( with input: (
+Matched!
+popping (
+moving to )
+currently in ) with input: )
+Matched!
+popping )
+moving to {
+currently in { with input: {
+Matched!
+popping {
+moving to <T>
+currently in <T> with input: int
+popping <T>
+creating <Id> under <T>
+creating <T> right of <Id>
+moving to <Id>
+pushing <T> into stack
+pushing <Id> into stack
+currently in <Id> with input: int
+popping <Id>
+creating int under <Id>
+creating <L> right of int
+moving to int
+pushing <L> into stack
+pushing int into stack
+currently in int with input: int
+Matched!
+popping int
+moving to <L>
+currently in <L> with input: x
+popping <L>
+creating x under <L>
+creating <Assign> right of x
+creating <Z> right of <Assign>
+moving to x
+pushing <Z> into stack
+pushing <Assign> into stack
+pushing IDENTIFIER into stack
+currently in x with input: x
+Matched!
+popping IDENTIFIER
+moving to <Assign>
+currently in <Assign> with input: ;
+popping <Assign>
+creating epsilon under <Assign>
+moving to epsilon
+currently in epsilon with input: ;
+moving to <Z>
+currently in <Z> with input: ;
+popping <Z>
+creating ; under <Z>
+moving to ;
+pushing ; into stack
+currently in ; with input: ;
+Matched!
+popping ;
+moving to <T>
+currently in <T> with input: int
+popping <T>
+creating <Id> under <T>
+creating <T> right of <Id>
+moving to <Id>
+pushing <T> into stack
+pushing <Id> into stack
+currently in <Id> with input: int
+popping <Id>
+creating int under <Id>
+creating <L> right of int
+moving to int
+pushing <L> into stack
+pushing int into stack
+currently in int with input: int
+Matched!
+popping int
+moving to <L>
+currently in <L> with input: s
+popping <L>
+creating s under <L>
+creating <Assign> right of s
+creating <Z> right of <Assign>
+moving to s
+pushing <Z> into stack
+pushing <Assign> into stack
+pushing IDENTIFIER into stack
+currently in s with input: s
+Matched!
+popping IDENTIFIER
+moving to <Assign>
+currently in <Assign> with input: =
+popping <Assign>
+creating = under <Assign>
+creating <Operation> right of =
+moving to =
+pushing <Operation> into stack
+pushing = into stack
+currently in = with input: =
+Matched!
+popping =
+moving to <Operation>
+currently in <Operation> with input: 0
+popping <Operation>
+creating 0 under <Operation>
+creating <P> right of 0
+moving to 0
+pushing <P> into stack
+pushing NUMBER into stack
+currently in 0 with input: 0
+Matched!
+popping NUMBER
+moving to <P>
+currently in <P> with input: ,
+popping <P>
+creating epsilon under <P>
+moving to epsilon
+currently in epsilon with input: ,
+moving to <Z>
+currently in <Z> with input: ,
+popping <Z>
+creating , under <Z>
+creating IDENTIFIER right of ,
+creating <Assign> right of IDENTIFIER
+creating <Z> right of <Assign>
+moving to ,
+pushing <Z> into stack
+pushing <Assign> into stack
+pushing IDENTIFIER into stack
+pushing , into stack
+currently in , with input: ,
+Matched!
+popping ,
+moving to IDENTIFIER
+currently in IDENTIFIER with input: t
+Matched!
+popping IDENTIFIER
+moving to <Assign>
+currently in <Assign> with input: =
+popping <Assign>
+creating = under <Assign>
+creating <Operation> right of =
+moving to =
+pushing <Operation> into stack
+pushing = into stack
+currently in = with input: =
+Matched!
+popping =
+moving to <Operation>
+currently in <Operation> with input: 10
+popping <Operation>
+creating 10 under <Operation>
+creating <P> right of 10
+moving to 10
+pushing <P> into stack
+pushing NUMBER into stack
+currently in 10 with input: 10
+Matched!
+popping NUMBER
+moving to <P>
+currently in <P> with input: ;
+popping <P>
+creating epsilon under <P>
+moving to epsilon
+currently in epsilon with input: ;
+moving to <Z>
+currently in <Z> with input: ;
+popping <Z>
+creating ; under <Z>
+moving to ;
+pushing ; into stack
+currently in ; with input: ;
+Matched!
+popping ;
+moving to <T>
+currently in <T> with input: while
+popping <T>
+creating <Loop> under <T>
+creating <T> right of <Loop>
+moving to <Loop>
+pushing <T> into stack
+pushing <Loop> into stack
+currently in <Loop> with input: while
+popping <Loop>
+creating while under <Loop>
+creating ( right of while
+creating <Expression> right of (
+creating ) right of <Expression>
+creating { right of )
+creating <T> right of {
+creating } right of <T>
+moving to while
+pushing } into stack
+pushing <T> into stack
+pushing { into stack
+pushing ) into stack
+pushing <Expression> into stack
+pushing ( into stack
+pushing while into stack
+currently in while with input: while
+Matched!
+popping while
+moving to (
+currently in ( with input: (
+Matched!
+popping (
+moving to <Expression>
+currently in <Expression> with input: t
+popping <Expression>
+creating <Operation> under <Expression>
+creating <K> right of <Operation>
+creating <Operation> right of <K>
+moving to <Operation>
+pushing <Operation> into stack
+pushing <K> into stack
+pushing <Operation> into stack
+currently in <Operation> with input: t
+popping <Operation>
+creating t under <Operation>
+creating <P> right of t
+moving to t
+pushing <P> into stack
+pushing IDENTIFIER into stack
+currently in t with input: t
+Matched!
+popping IDENTIFIER
+moving to <P>
+currently in <P> with input: >=
+popping <P>
+creating epsilon under <P>
+moving to epsilon
+currently in epsilon with input: >=
+moving to <K>
+currently in <K> with input: >=
+popping <K>
+creating >= under <K>
+moving to >=
+pushing >= into stack
+currently in >= with input: >=
+Matched!
+popping >=
+moving to <Operation>
+currently in <Operation> with input: 0
+popping <Operation>
+creating 0 under <Operation>
+creating <P> right of 0
+moving to 0
+pushing <P> into stack
+pushing NUMBER into stack
+currently in 0 with input: 0
+Matched!
+popping NUMBER
+moving to <P>
+currently in <P> with input: )
+popping <P>
+creating epsilon under <P>
+moving to epsilon
+currently in epsilon with input: )
+moving to )
+currently in ) with input: )
+Matched!
+popping )
+moving to {
+currently in { with input: {
+Matched!
+popping {
+moving to <T>
+currently in <T> with input: cin
+popping <T>
+creating <Input> under <T>
+creating <T> right of <Input>
+moving to <Input>
+pushing <T> into stack
+pushing <Input> into stack
+currently in <Input> with input: cin
+popping <Input>
+creating cin under <Input>
+creating >> right of cin
+creating IDENTIFIER right of >>
+creating <F> right of IDENTIFIER
+creating ; right of <F>
+moving to cin
+pushing ; into stack
+pushing <F> into stack
+pushing IDENTIFIER into stack
+pushing >> into stack
+pushing cin into stack
+currently in cin with input: cin
+Matched!
+popping cin
+moving to >>
+currently in >> with input: >>
+Matched!
+popping >>
+moving to IDENTIFIER
+currently in IDENTIFIER with input: x
+Matched!
+popping IDENTIFIER
+moving to <F>
+currently in <F> with input: ;
+popping <F>
+creating epsilon under <F>
+moving to epsilon
+currently in epsilon with input: ;
+moving to ;
+currently in ; with input: ;
+Matched!
+popping ;
+moving to <T>
+currently in <T> with input: t
+popping <T>
+creating <L> under <T>
+creating <T> right of <L>
+moving to <L>
+pushing <T> into stack
+pushing <L> into stack
+currently in <L> with input: t
+popping <L>
+creating t under <L>
+creating <Assign> right of t
+creating <Z> right of <Assign>
+moving to t
+pushing <Z> into stack
+pushing <Assign> into stack
+pushing IDENTIFIER into stack
+currently in t with input: t
+Matched!
+popping IDENTIFIER
+moving to <Assign>
+currently in <Assign> with input: =
+popping <Assign>
+creating = under <Assign>
+creating <Operation> right of =
+moving to =
+pushing <Operation> into stack
+pushing = into stack
+currently in = with input: =
+Matched!
+popping =
+moving to <Operation>
+currently in <Operation> with input: t
+popping <Operation>
+creating t under <Operation>
+creating <P> right of t
+moving to t
+pushing <P> into stack
+pushing IDENTIFIER into stack
+currently in t with input: t
+Matched!
+popping IDENTIFIER
+moving to <P>
+currently in <P> with input: -
+popping <P>
+creating <O> under <P>
+creating <W> right of <O>
+creating <P> right of <W>
+moving to <O>
+pushing <P> into stack
+pushing <W> into stack
+pushing <O> into stack
+currently in <O> with input: -
+popping <O>
+creating - under <O>
+moving to -
+pushing - into stack
+currently in - with input: -
+Matched!
+popping -
+moving to <W>
+currently in <W> with input: 1
+popping <W>
+creating 1 under <W>
+moving to 1
+pushing NUMBER into stack
+currently in 1 with input: 1
+Matched!
+popping NUMBER
+moving to <P>
+currently in <P> with input: ;
+popping <P>
+creating epsilon under <P>
+moving to epsilon
+currently in epsilon with input: ;
+moving to <Z>
+currently in <Z> with input: ;
+popping <Z>
+creating ; under <Z>
+moving to ;
+pushing ; into stack
+currently in ; with input: ;
+Matched!
+popping ;
+moving to <T>
+currently in <T> with input: s
+popping <T>
+creating <L> under <T>
+creating <T> right of <L>
+moving to <L>
+pushing <T> into stack
+pushing <L> into stack
+currently in <L> with input: s
+popping <L>
+creating s under <L>
+creating <Assign> right of s
+creating <Z> right of <Assign>
+moving to s
+pushing <Z> into stack
+pushing <Assign> into stack
+pushing IDENTIFIER into stack
+currently in s with input: s
+Matched!
+popping IDENTIFIER
+moving to <Assign>
+currently in <Assign> with input: =
+popping <Assign>
+creating = under <Assign>
+creating <Operation> right of =
+moving to =
+pushing <Operation> into stack
+pushing = into stack
+currently in = with input: =
+Matched!
+popping =
+moving to <Operation>
+currently in <Operation> with input: s
+popping <Operation>
+creating s under <Operation>
+creating <P> right of s
+moving to s
+pushing <P> into stack
+pushing IDENTIFIER into stack
+currently in s with input: s
+Matched!
+popping IDENTIFIER
+moving to <P>
+currently in <P> with input: +
+popping <P>
+creating <O> under <P>
+creating <W> right of <O>
+creating <P> right of <W>
+moving to <O>
+pushing <P> into stack
+pushing <W> into stack
+pushing <O> into stack
+currently in <O> with input: +
+popping <O>
+creating + under <O>
+moving to +
+pushing + into stack
+currently in + with input: +
+Matched!
+popping +
+moving to <W>
+currently in <W> with input: x
+popping <W>
+creating x under <W>
+moving to x
+pushing IDENTIFIER into stack
+currently in x with input: x
+Matched!
+popping IDENTIFIER
+moving to <P>
+currently in <P> with input: ;
+popping <P>
+creating epsilon under <P>
+moving to epsilon
+currently in epsilon with input: ;
+moving to <Z>
+currently in <Z> with input: ;
+popping <Z>
+creating ; under <Z>
+moving to ;
+pushing ; into stack
+currently in ; with input: ;
+Matched!
+popping ;
+moving to <T>
+currently in <T> with input: }
+popping <T>
+creating epsilon under <T>
+moving to epsilon
+currently in epsilon with input: }
+moving to }
+currently in } with input: }
+Matched!
+popping }
+moving to <T>
+currently in <T> with input: cout
+popping <T>
+creating <Output> under <T>
+creating <T> right of <Output>
+moving to <Output>
+pushing <T> into stack
+pushing <Output> into stack
+currently in <Output> with input: cout
+popping <Output>
+creating cout under <Output>
+creating << right of cout
+creating <C> right of <<
+creating <H> right of <C>
+creating ; right of <H>
+moving to cout
+pushing ; into stack
+pushing <H> into stack
+pushing <C> into stack
+pushing << into stack
+pushing cout into stack
+currently in cout with input: cout
+Matched!
+popping cout
+moving to <<
+currently in << with input: <<
+Matched!
+popping <<
+moving to <C>
+currently in <C> with input: "sum="
+popping <C>
+creating "sum=" under <C>
+moving to "sum="
+pushing STRING into stack
+currently in "sum=" with input: "sum="
+Matched!
+popping STRING
+moving to <H>
+currently in <H> with input: <<
+popping <H>
+creating << under <H>
+creating <C> right of <<
+creating <H> right of <C>
+moving to <<
+pushing <H> into stack
+pushing <C> into stack
+pushing << into stack
+currently in << with input: <<
+Matched!
+popping <<
+moving to <C>
+currently in <C> with input: s
+popping <C>
+creating s under <C>
+moving to s
+pushing IDENTIFIER into stack
+currently in s with input: s
+Matched!
+popping IDENTIFIER
+moving to <H>
+currently in <H> with input: ;
+popping <H>
+creating epsilon under <H>
+moving to epsilon
+currently in epsilon with input: ;
+moving to ;
+currently in ; with input: ;
+Matched!
+popping ;
+moving to <T>
+currently in <T> with input: return
+popping <T>
+creating epsilon under <T>
+moving to epsilon
+currently in epsilon with input: return
+moving to <V>
+currently in <V> with input: return
+popping <V>
+creating return under <V>
+creating 0 right of return
+creating ; right of 0
+moving to return
+pushing ; into stack
+pushing 0 into stack
+pushing return into stack
+currently in return with input: return
+Matched!
+popping return
+moving to 0
+currently in 0 with input: 0
+Matched!
+popping 0
+moving to ;
+currently in ; with input: ;
+Matched!
+popping ;
+moving to }
+currently in } with input: }
+Matched!
+popping }
+
+
+
+first occurrence of s is:int s = 0 
