@@ -25,14 +25,18 @@ std::vector<int> invalid_declaration(std::vector<Token> T){
     for (const auto& token : T) {
         if(token.value=="int" || token.value=="float"){
             if(token.type==RESERVEDWORD){
-                if(T[token.hash+1].type==IDENTIFIER){
-                    if(T[token.hash+2].value=="="){
-                        if(!std::regex_match(T[token.hash+3].value, NUMBER_expr)){
-                            err.push_back(1), err.push_back(token.linenumber);
-                            return err;
-                        }
+            int jump=2;
+                while (1){
+                    if(T[token.hash+jump].value==";"){
+                        break;
+                    }else if(T[token.hash+jump].value==","){
+                        jump=jump+2;
+                    }else if(T[token.hash+jump].value=="=" && T[token.hash+jump].type!=NUMBER){
+                        err.push_back(1),err.push_back(T[token.hash+jump].linenumber);
+                        return err;
                     }
                 }
+                
             }
         }
         else if(token.value=="std" && T[token.hash+1].value!=";"){
@@ -158,10 +162,9 @@ int main(){
             tokenz.insert(tokenz.end(), newTokenz.begin(), newTokenz.end());
             ln++;
         }
-        std::string tavaken[5]={"STRING","NUMBER", "SYMBOL","IDENTIFIER", "RESERVEDWORD"};
         log << "Tokenized string:\n";
         for (const auto& token : tokenz) {
-        log << "[" << tavaken[token.type]<< ", " << token.value << "]" << std::endl;
+        log << "[" << enum2str[token.type]<< ", " << token.value << "]" << std::endl;
         }
         log << "\n\n\n";
         //bonus 2
@@ -178,7 +181,7 @@ int main(){
         std::sort(tokenzSorted.begin(), tokenzSorted.end(),typecmp);
         log << "Token Table:\n";
         for (const auto& token : tokenzSorted) {
-            log << "[" << tavaken[token.type]<< ", " << token.value <<  "\t h(k)= " << token.hash << "]" << std::endl;
+            log << "[" << enum2str[token.type]<< ", " << token.value <<  "\t h(k)= " << token.hash << "]" << std::endl;
         }
         log << "\n\n\n";
         // Preparing token list, creating stack, and loading parse table
